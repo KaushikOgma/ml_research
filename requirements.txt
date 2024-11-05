@@ -1,0 +1,11 @@
+torch torchvision torchaudio
+transformers
+sounddevice
+numpy
+soundfile
+pydub
+google-generativeai
+ffmpeg-python
+playsound
+scipy
+openai

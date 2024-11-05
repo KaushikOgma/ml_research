@@ -1,0 +1,15 @@
+https://colab.research.google.com/drive/1ZdkNC0um1WNvHV92CnzF2Bm62xQssnYI?usp=sharing 
+
+https://colab.research.google.com/drive/1ELk63dBXw441TowVNpxycTgTfxOgaENw?usp=sharing 
+
+https://colab.research.google.com/drive/1GoTLwly6qE7EkUM7SQZ6s_1GsUfRGu1U?usp=sharing 
+
+https://colab.research.google.com/drive/1NxiY3zHN4Nd8J3YAqFsbYaOB71IiLE04?usp=sharing 
+
+https://colab.research.google.com/drive/1N8lXviiwfmrS9vYzuFdQnLHlddXMMMvU?usp=sharing 
+
+https://colab.research.google.com/github/tugstugi/dl-colab-notebooks/blob/master/notebooks/RealTimeVoiceCloning.ipynb 
+
+https://colab.research.google.com/github/olaviinha/NeuralTextToAudio/blob/main/TTS_voice_cloning_pub.ipynb 
+
+https://colab.research.google.com/drive/1IZGsMRRN-eoidVlN6crp2q5HCN85kYN_?usp=sharing 
