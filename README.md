@@ -71,3 +71,13 @@ OgmaConceptions_Speech_Automation/
 ## Initiate Server Script:
 
 
+## Experimentes:
+1. .\\exp\\audio_to_audio.ipynb - In this file we experimenting deferrent speech to text model, LLm model and speech to text model for audio to audio convertion multimodel.
+2. .\\exp\\clone_your_own_voice_tortoise_tts.ipynb - In this file we experimenting tortoise_tts model for voice cloning.
+3. .\\exp\\RealTimeVoiceCloning.ipynb - In this file we Experiment Real Time voice Cloning which is contain with three models.
+4. .\\exp\\Speech_Automation(end_to_end).ipynb - end to end 
+5. .\\exp\\TTS_voice_cloning_pub.ipynb - Here we experimenting TTS for voice cloning.
+6. .\\exp\\Voice_cloning.ipynb - In this we file we experimenting multiple models.
+
+
+

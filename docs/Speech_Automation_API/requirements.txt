@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+torch
+transformers
+pydub
+google-generativeai
+scipy
+soundfile
