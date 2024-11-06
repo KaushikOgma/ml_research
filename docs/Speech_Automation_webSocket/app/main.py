@@ -23,7 +23,7 @@ async def process_audio(websocket, path):
         await websocket.send(f"Transcribed Text: {transcribed_text}")
 
         # Step 3: Correct grammar
-        api_key = "AIzaSyBCW-TszvSeBUqHd2Ap7gpnjaVUG5BAlx0" 
+        api_key = "##########################################" 
         corrected_text = correct_grammar(api_key, transcribed_text)
         await websocket.send(f"Corrected Text: {corrected_text}")
 

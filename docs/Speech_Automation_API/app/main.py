@@ -22,7 +22,7 @@ async def process_audio(file: UploadFile = File(...)):
     print("Transcribed Text:", transcribed_text)
 
     # Step 3: Correct grammar and pronunciation
-    api_key = "AIzaSyBCW-TszvSeBUqHd2Ap7gpnjaVUG5BAlx0"  # Replace with your actual API key
+    api_key = "###########################"  # Replace with your actual API key
     corrected_text = correct_grammar(api_key, transcribed_text)
     print("Corrected Text:", corrected_text)
 
