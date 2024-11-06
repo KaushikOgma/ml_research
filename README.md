@@ -66,7 +66,7 @@ OgmaConceptions_Speech_Automation/
 
 ## Flow Chart:
 
-![alt text](image.png)
+[![alt text](image.png)](https://github.com/Rahulogmaconceptions/ml_research/blob/speech_automation/docs/image.png)
 
 ## Initiate Server Script:
 
