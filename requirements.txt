@@ -9,3 +9,6 @@ ffmpeg-python
 playsound
 scipy
 openai
+fastapi
+uvicon
+uvicon-standard
