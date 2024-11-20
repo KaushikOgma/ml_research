@@ -1,0 +1,17 @@
+sounddevice
+numpy
+soundfile
+pydub
+google-generativeai
+playsound
+scipy
+openai
+fastapi
+uvicon
+uvicon-standard
+socketio
+python-socketio
+python-engineio
+websocket-client
+python-dotenv
+aiohttp
