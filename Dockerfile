@@ -1,13 +1,18 @@
-# Use a base image
-FROM python:3.11-slim
+# Use the official Python base image
+FROM python:3.12
 
-WORKDIR /ml_research
+# Set the working directory inside the container
+WORKDIR /app
 
-COPY requirements.txt .
+# Copy the requirements file
+COPY requirements.txt /app
+# Install project dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Copy the application code
+COPY . /app
 
-EXPOSE 8000
+# Expose the FastAPI default port
+EXPOSE $APP_PORT
 
 CMD ["python", "main.py"]

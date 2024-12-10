@@ -1,4 +1,6 @@
-torch torchvision torchaudio
+torch
+torchvision
+torchaudio
 transformers
 sounddevice
 numpy
@@ -10,5 +12,4 @@ playsound
 scipy
 openai
 fastapi
-uvicon
-uvicon-standard
+uvicorn

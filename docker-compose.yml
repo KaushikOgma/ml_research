@@ -1,17 +1,15 @@
-version: '3'
 services:
   app:
-    container_name: "${DOCKER_CONTAINER_NAME}"
+    container_name: ${PROJECT_NAME}
     build:
       context: .
       dockerfile: Dockerfile
-    image: "${DOCKER_IMAGE_NAME}"
+    environment:
+      - APP_PORT=${APP_PORT}
     ports:
       - "${APP_PORT}:${APP_PORT}"
     volumes:
       - .:/app
     network_mode: "host"
-    environment:
-      - APP_PORT=${APP_PORT}
     env_file: 
       - .env

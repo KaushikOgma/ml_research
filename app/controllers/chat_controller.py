@@ -96,6 +96,7 @@ async def process_text(websocket: WebSocket):
 
             print("Text processing completed and feedback sent to client")
 
+
     except Exception as e:
         print(f"Error occurred during text processing: {e}")
         await websocket.close(code=1011, reason="Internal server error")
