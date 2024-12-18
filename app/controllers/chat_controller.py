@@ -24,11 +24,11 @@ if CUSTOM_TEMP_DIR:
     os.makedirs(CUSTOM_TEMP_DIR, exist_ok=True)
 
 async def process_audio(websocket: WebSocket):
-    try:
-        print("Client connected for audio processing")
-        await websocket.send_text("You can start sending audio data.")
+    print("Client connected for audio processing")
+    await websocket.send_text("You can start sending audio data.")
 
-        while True:
+    while True:
+        try:
             # Step 1: Receive audio file from client
             audio_data = await websocket.receive_bytes()
             print("Audio file received")
@@ -39,7 +39,7 @@ async def process_audio(websocket: WebSocket):
             # Convert byte data to WAV format and store it in a temporary file within the custom directory
             with io.BytesIO(audio_data) as audio_buffer:
                 audio, sample_rate = sf.read(audio_buffer)
-                
+
                 # Use the custom temporary directory if set, else use the default system temp directory
                 temp_wav_file = tempfile.NamedTemporaryFile(suffix=".wav", dir=CUSTOM_TEMP_DIR)
                 sf.write(temp_wav_file.name, audio, sample_rate, format='WAV')
@@ -52,7 +52,7 @@ async def process_audio(websocket: WebSocket):
                     with open(uploaded_audio_path, "wb") as f:
                         f.write(audio_data)
                     print(f"Uploaded audio saved to: {uploaded_audio_path}")
-            
+
             # Step 2: Convert speech to text
             transcribed_text = await openai_speech_to_text(temp_wav_file.name)
             await websocket.send_text(f"Transcribed Text: {transcribed_text}")
@@ -63,7 +63,7 @@ async def process_audio(websocket: WebSocket):
 
             # Step 4: Convert corrected text to speech
             audio_response_data = await openai_text_to_speech(corrected_text)
-            
+
             # Save output audio if SAVE_AUDIO is enabled
             if SAVE_AUDIO:
                 os.makedirs(AUDIO_SAVE_DIR, exist_ok=True)
@@ -71,21 +71,23 @@ async def process_audio(websocket: WebSocket):
                 with open(output_audio_path, "wb") as audio_file:
                     audio_file.write(audio_response_data)
                 print(f"Converted audio saved to: {output_audio_path}")
-            
+
             # Send final audio to client
             await websocket.send_bytes(audio_response_data)
             print("Audio processing completed and sent to client")
 
-    except Exception as e:
-        print(f"Error occurred: {e}")
-        await websocket.close(code=1011, reason="Internal server error")
+        except Exception as e:
+            error_message = f"Error occurred: {str(e)}"
+            print(error_message)
+            # Send the error message to the client instead of closing the connection
+            await websocket.send_text(error_message)
 
 async def process_text(websocket: WebSocket):
-    try:
-        print("Client connected for text processing")
-        await websocket.send_text("You can start sending text data.")
+    print("Client connected for text processing")
+    await websocket.send_text("You can start sending text data.")
 
-        while True:
+    while True:
+        try:
             # Step 1: Receive text input from client
             text_data = await websocket.receive_text()
             print("Text received for processing")
@@ -96,7 +98,8 @@ async def process_text(websocket: WebSocket):
 
             print("Text processing completed and feedback sent to client")
 
-
-    except Exception as e:
-        print(f"Error occurred during text processing: {e}")
-        await websocket.close(code=1011, reason="Internal server error")
+        except Exception as e:
+            error_message = f"Error occurred during text processing: {str(e)}"
+            print(error_message)
+            # Send the error message to the client instead of closing the connection
+            await websocket.send_text(error_message)
