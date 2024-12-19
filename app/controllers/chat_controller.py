@@ -96,7 +96,20 @@ async def process_text(websocket: WebSocket):
             corrected_text = await correct_grammar(text_data)
             await websocket.send_text(f"Corrected Text: {corrected_text}")
 
-            print("Text processing completed and feedback sent to client")
+            # Step 3: Convert corrected text to speech
+            audio_response_data = await openai_text_to_speech(corrected_text)
+
+            # Save output audio if SAVE_AUDIO is enabled
+            if SAVE_AUDIO:
+                os.makedirs(AUDIO_SAVE_DIR, exist_ok=True)
+                output_audio_path = os.path.join(AUDIO_SAVE_DIR, "text_to_audio_output.mp3")
+                with open(output_audio_path, "wb") as audio_file:
+                    audio_file.write(audio_response_data)
+                print(f"Converted text-to-speech audio saved to: {output_audio_path}")
+
+            # Step 4: Send final audio to client
+            await websocket.send_bytes(audio_response_data)
+            print("Text processing completed and audio sent to client")
 
         except Exception as e:
             error_message = f"Error occurred during text processing: {str(e)}"
