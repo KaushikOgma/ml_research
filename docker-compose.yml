@@ -10,6 +10,6 @@ services:
       - "${APP_PORT}:${APP_PORT}"
     volumes:
       - .:/app
-    network_mode: "host"
+    # network_mode: "host"
     env_file: 
       - .env
