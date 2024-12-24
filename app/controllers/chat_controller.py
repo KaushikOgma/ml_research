@@ -10,6 +10,7 @@ from app.services.speech_to_text import openai_speech_to_text
 from app.services.grammar_correction import correct_grammar
 from app.services.text_to_speech import openai_text_to_speech
 from app.services.websocket_service import WebSocketManager
+from starlette.websockets import WebSocketDisconnect
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -25,7 +26,11 @@ if CUSTOM_TEMP_DIR:
 
 async def process_audio(websocket: WebSocket):
     print("Client connected for audio processing")
-    await websocket.send_text("You can start sending audio data.")
+    try:
+        await websocket.send_text("You can start sending audio data.")
+    except Exception as e:
+        print(f"Error sending initial message: {str(e)}")
+        return  # Stop processing if the initial message cannot be sent
 
     while True:
         try:
@@ -36,11 +41,9 @@ async def process_audio(websocket: WebSocket):
             # Inform the client that the audio is being processed
             await websocket.send_text("Processing audio... Please wait")
 
-            # Convert byte data to WAV format and store it in a temporary file within the custom directory
+            # Convert byte data to WAV format and store it in a temporary file
             with io.BytesIO(audio_data) as audio_buffer:
                 audio, sample_rate = sf.read(audio_buffer)
-
-                # Use the custom temporary directory if set, else use the default system temp directory
                 temp_wav_file = tempfile.NamedTemporaryFile(suffix=".wav", dir=CUSTOM_TEMP_DIR)
                 sf.write(temp_wav_file.name, audio, sample_rate, format='WAV')
                 temp_wav_file.flush()
@@ -76,15 +79,28 @@ async def process_audio(websocket: WebSocket):
             await websocket.send_bytes(audio_response_data)
             print("Audio processing completed and sent to client")
 
+        except WebSocketDisconnect:
+            print("Client disconnected")
+            break  # Exit the loop when the WebSocket connection is closed
+
         except Exception as e:
             error_message = f"Error occurred: {str(e)}"
             print(error_message)
-            # Send the error message to the client instead of closing the connection
-            await websocket.send_text(error_message)
+            try:
+                # Attempt to send the error message only if the connection is open
+                await websocket.send_text(error_message)
+            except WebSocketDisconnect:
+                print("Client disconnected during error handling")
+                break  # Exit the loop if the client is no longer connected
+
 
 async def process_text(websocket: WebSocket):
     print("Client connected for text processing")
-    await websocket.send_text("You can start sending text data.")
+    try:
+        await websocket.send_text("You can start sending text data.")
+    except Exception as e:
+        print(f"Error sending initial message: {str(e)}")
+        return  # Stop processing if the initial message cannot be sent
 
     while True:
         try:
@@ -111,8 +127,17 @@ async def process_text(websocket: WebSocket):
             await websocket.send_bytes(audio_response_data)
             print("Text processing completed and audio sent to client")
 
+        except WebSocketDisconnect:
+            print("Client disconnected")
+            break  # Exit the loop when the WebSocket connection is closed
+
         except Exception as e:
             error_message = f"Error occurred during text processing: {str(e)}"
             print(error_message)
-            # Send the error message to the client instead of closing the connection
-            await websocket.send_text(error_message)
+            try:
+                await websocket.send_text(error_message)
+            except WebSocketDisconnect:
+                print("Unable to send error message, client disconnected")
+                break  # Exit the loop if the client is no longer connected
+
+
