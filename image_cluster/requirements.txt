@@ -1,0 +1,10 @@
+insightface 
+opencv-python 
+tqdm 
+scikit-learn 
+onnxruntime 
+facenet-pytorch 
+tensorflow 
+tensorflow-hub 
+mediapipe 
+pandas
